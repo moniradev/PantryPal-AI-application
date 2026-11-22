@@ -16,6 +16,7 @@ const initialRecipes = [
     cost: "৳110",
     matchRate: "100%",
     pantryMatch: "All 5 ingredients available in pantry",
+    image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=400&q=80",
     instructions: [
       "Wash Miniket rice and masoor dal together; drain thoroughly.",
       "Heat mustard oil, sauté sliced onions and green chilies until fragrant.",
@@ -33,11 +34,29 @@ const initialRecipes = [
     cost: "৳90",
     matchRate: "100%",
     pantryMatch: "All 4 ingredients available in pantry",
+    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=400&q=80",
     instructions: [
       "Boil and peel potatoes and eggs.",
       "Lightly fry the eggs in mustard oil with salt and turmeric.",
       "Sauté onions, tomatoes, and Bengali spices until oil separates.",
       "Add halved potatoes and water, then gently add the eggs and simmer.",
+    ],
+  },
+  {
+    id: "3",
+    title: "Bengali Egg Fried Rice & Tomato Salad",
+    titleBn: "ডিম ভাজা ফ্রাইড রাইস ও টমেটো সালাদ",
+    time: "20 mins",
+    servings: 2,
+    cost: "৳85",
+    matchRate: "100%",
+    pantryMatch: "Uses expiring tomatoes & pantry eggs",
+    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80",
+    instructions: [
+      "Use leftover steamed Miniket rice or boil fresh rice.",
+      "Sauté chopped red onions and green chilies in a tablespoon of oil.",
+      "Scramble 2 eggs in the pan, then toss in the rice with salt and black pepper.",
+      "Slice fresh tomatoes and toss with coriander leaves and a dash of mustard oil.",
     ],
   },
 ];
@@ -83,6 +102,7 @@ export default function RecipesPage() {
           cost: `৳${r.estimated_cost_bdt}`,
           matchRate: `${r.match_percentage || 100}%`,
           pantryMatch: "Uses expiring tomatoes & pantry eggs",
+          image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=400&q=80",
           instructions: r.instructions || [],
         };
         setRecipes((prev) => [newRecipe, ...prev]);
@@ -100,7 +120,7 @@ export default function RecipesPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-[#183b2b]">
-            AI Recipe Generator (রেসিপি জেনারেটর)
+            AI Recipe Generator for Monira Akter
           </h2>
           <p className="text-xs md:text-sm text-[#5e6b65]">
             Crafts dishes prioritized by expiring items to eliminate kitchen waste.
@@ -167,7 +187,7 @@ export default function RecipesPage() {
                 variant="primary"
                 onClick={handleGenerateRecipe}
                 disabled={isGenerating}
-                className="w-full text-xs"
+                className="w-full text-xs shadow-xs"
               >
                 {isGenerating ? "Analyzing Inventory..." : "Run AI Pantry Match"}
               </Button>
@@ -176,51 +196,62 @@ export default function RecipesPage() {
         </div>
       </Card>
 
-      {/* Recipes Grid */}
+      {/* Recipes Grid with Photos */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {recipes.map((recipe) => (
-          <Card key={recipe.id} className="flex flex-col justify-between p-5 space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-start justify-between">
-                <Badge variant="sage">{recipe.matchRate} In-Stock</Badge>
-                <button className="text-[#8c9993] hover:text-[#b93828]">
-                  <Heart className="w-4 h-4" />
-                </button>
-              </div>
-
-              <h3 className="font-bold text-base text-[#183b2b]">
-                {recipe.title}
-              </h3>
-              <p className="text-xs text-[#5e6b65]">{recipe.titleBn}</p>
+          <Card key={recipe.id} className="flex flex-col justify-between overflow-hidden shadow-xs hover:border-[#183b2b]/40 transition-all">
+            {/* Dish Image */}
+            <div className="h-44 w-full overflow-hidden bg-[#faf7f2] border-b border-[#e5dfd5]">
+              <img
+                src={recipe.image}
+                alt={recipe.title}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+              />
             </div>
 
-            <div className="p-2.5 rounded-xl bg-[#faf7f2] border border-[#e5dfd5] text-xs text-[#183b2b] font-medium">
-              {recipe.pantryMatch}
-            </div>
+            <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="flex items-start justify-between">
+                  <Badge variant="sage" className="font-mono text-xs">{recipe.matchRate} In-Stock</Badge>
+                  <button className="text-[#8c9993] hover:text-[#b93828]">
+                    <Heart className="w-4 h-4" />
+                  </button>
+                </div>
 
-            <div className="grid grid-cols-3 gap-2 py-2 text-center text-xs border-y border-[#f3efe8] font-mono">
-              <div>
-                <span className="text-[#5e6b65] block text-[10px] font-sans">Time</span>
-                <span className="font-semibold text-[#18211e]">{recipe.time}</span>
+                <h3 className="font-bold text-base text-[#183b2b]">
+                  {recipe.title}
+                </h3>
+                <p className="text-xs text-[#5e6b65]">{recipe.titleBn}</p>
               </div>
-              <div>
-                <span className="text-[#5e6b65] block text-[10px] font-sans">Servings</span>
-                <span className="font-semibold text-[#18211e]">{recipe.servings}</span>
-              </div>
-              <div>
-                <span className="text-[#5e6b65] block text-[10px] font-sans">Est. Cost</span>
-                <span className="font-bold text-[#183b2b]">{recipe.cost}</span>
-              </div>
-            </div>
 
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => setActiveRecipeModal(recipe)}
-              className="w-full text-xs"
-            >
-              View Cooking Steps
-            </Button>
+              <div className="p-2.5 rounded-xl bg-[#faf7f2] border border-[#e5dfd5] text-xs text-[#183b2b] font-medium">
+                {recipe.pantryMatch}
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 py-2 text-center text-xs border-y border-[#f3efe8] font-mono">
+                <div>
+                  <span className="text-[#5e6b65] block text-[10px] font-sans">Time</span>
+                  <span className="font-semibold text-[#18211e]">{recipe.time}</span>
+                </div>
+                <div>
+                  <span className="text-[#5e6b65] block text-[10px] font-sans">Servings</span>
+                  <span className="font-semibold text-[#18211e]">{recipe.servings}</span>
+                </div>
+                <div>
+                  <span className="text-[#5e6b65] block text-[10px] font-sans">Est. Cost</span>
+                  <span className="font-bold text-[#183b2b]">{recipe.cost}</span>
+                </div>
+              </div>
+
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setActiveRecipeModal(recipe)}
+                className="w-full text-xs font-semibold"
+              >
+                View Cooking Steps
+              </Button>
+            </div>
           </Card>
         ))}
       </div>
@@ -247,13 +278,13 @@ export default function RecipesPage() {
             </div>
 
             <div className="py-4 space-y-4 text-xs">
-              <h4 className="font-semibold text-sm text-[#18211e]">
+              <h4 className="font-bold text-sm text-[#18211e]">
                 Step-by-Step Cooking Instructions:
               </h4>
               <div className="space-y-3">
                 {activeRecipeModal.instructions.map((step: string, idx: number) => (
                   <div key={idx} className="flex items-start gap-3 p-3 rounded-xl bg-[#faf7f2] border border-[#e5dfd5]">
-                    <span className="w-5 h-5 rounded-full bg-[#183b2b] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                    <span className="w-5 h-5 rounded-full bg-[#183b2b] text-white flex items-center justify-center text-[10px] font-bold shrink-0 font-mono">
                       {idx + 1}
                     </span>
                     <p className="text-[#18211e] leading-relaxed">{step}</p>

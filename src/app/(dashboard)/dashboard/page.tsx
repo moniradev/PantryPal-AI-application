@@ -13,14 +13,14 @@ import {
   Sparkles,
   Camera,
   Plus,
-  Clock,
   MapPin,
 } from "lucide-react";
+import Link from "next/link";
 
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      {/* Editorial Header Command Banner (Clean, no purple gradients, no emojis) */}
+      {/* Editorial Header Command Banner - For Monira Akter */}
       <div className="bg-[#183b2b] text-white p-6 md:p-8 rounded-3xl shadow-xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5">
         <div className="space-y-2.5 z-10 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-semibold text-[#d8e8dc]">
@@ -28,36 +28,40 @@ export default function DashboardPage() {
             <span>Pantry Intelligence System Active</span>
             <span className="text-white/40">•</span>
             <span className="inline-flex items-center gap-1 text-[11px] font-normal text-white/80">
-              <MapPin className="w-3 h-3 text-[#d8e8dc]" /> Dhaka, BD
+              <MapPin className="w-3 h-3 text-[#d8e8dc]" /> Dhaka, Bangladesh
             </span>
           </div>
           <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight">
-            Kitchen Overview: Shakil Ahmed
+            Kitchen Overview: Monira Akter
           </h2>
           <p className="text-xs md:text-sm text-[#d8e8dc]/85 leading-relaxed font-normal">
-            Inventory is synced across 24 items. 3 ingredients need to be used within 48 hours to prevent food waste. Tonight’s dinner plan is scheduled for 8:30 PM.
+            Welcome back, Monira! Your kitchen inventory has 24 tracked items. 3 ingredients need to be used within 48 hours to avoid waste. Dinner is scheduled for 8:30 PM.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 z-10 shrink-0">
-          <Button
-            variant="secondary"
-            className="text-xs bg-[#d8e8dc] text-[#143525] hover:bg-white gap-2 font-semibold shadow-2xs"
-          >
-            <Camera className="w-4 h-4 text-[#183b2b]" />
-            <span>Scan Fridge / Receipt</span>
-          </Button>
-          <Button
-            variant="outline"
-            className="text-xs bg-white/10 text-white border-white/20 hover:bg-white/20 gap-2 font-semibold"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Add Ingredient</span>
-          </Button>
+          <Link href="/pantry">
+            <Button
+              variant="secondary"
+              className="text-xs bg-[#d8e8dc] text-[#143525] hover:bg-white gap-2 font-semibold shadow-2xs"
+            >
+              <Camera className="w-4 h-4 text-[#183b2b]" />
+              <span>Scan Fridge / Items</span>
+            </Button>
+          </Link>
+          <Link href="/pantry">
+            <Button
+              variant="outline"
+              className="text-xs bg-white/10 text-white border-white/20 hover:bg-white/20 gap-2 font-semibold"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add Ingredient</span>
+            </Button>
+          </Link>
         </div>
       </div>
 
-      {/* 4 Metric Tiles with High Informational Density */}
+      {/* 4 Metric Tiles */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Total Stocked Ingredients"

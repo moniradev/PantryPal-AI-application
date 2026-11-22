@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { X, Camera, Sparkles, Upload, Check, Trash2, AlertCircle } from "lucide-react";
+import React, { useState, useRef } from "react";
+import { X, Camera, Sparkles, Upload, Check, Trash2, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -19,23 +19,43 @@ export function ScanFridgeModal({
   const [isScanning, setIsScanning] = useState(false);
   const [detectedItems, setDetectedItems] = useState<any[]>([]);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   if (!isOpen) return null;
 
-  const handleSimulateScan = async () => {
-    setIsScanning(true);
-    // Simulate image upload with sample kitchen ingredients
-    setPreviewImage(
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80"
-    );
+  // Handle actual file upload from device or camera
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result as string;
+      setPreviewImage(base64);
+      processImageDetection(base64, file.type || "image/jpeg");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSimulateScan = async () => {
+    const sampleImg =
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80";
+    setPreviewImage(sampleImg);
+    processImageDetection(
+      "data:image/jpeg;base64,samplebase64imagestringfortestingpurposesonly...",
+      "image/jpeg"
+    );
+  };
+
+  const processImageDetection = async (base64: string, mimeType: string) => {
+    setIsScanning(true);
     try {
       const res = await fetch("/api/ai/vision-detect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          imageBase64: "data:image/jpeg;base64,samplebase64imagestringfortestingpurposesonly...",
-          mimeType: "image/jpeg",
+          imageBase64: base64,
+          mimeType: mimeType,
         }),
       });
       const data = await res.json();
@@ -82,10 +102,10 @@ export function ScanFridgeModal({
             </div>
             <div>
               <h3 className="font-bold text-lg text-[#183b2b]">
-                Gemini Vision Fridge & Countertop Scanner
+                Gemini Vision Fridge Scanner
               </h3>
               <p className="text-xs text-[#5e6b65]">
-                Upload photo to detect raw ingredients with confidence scores.
+                Upload any kitchen or fridge photo to extract raw ingredients.
               </p>
             </div>
           </div>
@@ -97,27 +117,47 @@ export function ScanFridgeModal({
           </button>
         </div>
 
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept="image/*"
+          capture="environment"
+          onChange={handleFileChange}
+          className="hidden"
+        />
+
         <div className="space-y-4 pt-4 text-xs">
-          {/* Upload Dropzone */}
           {!previewImage ? (
-            <div
-              onClick={handleSimulateScan}
-              className="border-2 border-dashed border-[#e5dfd5] hover:border-[#183b2b] rounded-2xl p-8 text-center cursor-pointer bg-[#faf7f2] transition-colors space-y-3"
-            >
-              <div className="w-12 h-12 rounded-full bg-white shadow-xs mx-auto flex items-center justify-center text-[#183b2b]">
-                <Camera className="w-6 h-6" />
+            <div className="space-y-3">
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="border-2 border-dashed border-[#e5dfd5] hover:border-[#183b2b] rounded-2xl p-8 text-center cursor-pointer bg-[#faf7f2] transition-colors space-y-3"
+              >
+                <div className="w-12 h-12 rounded-full bg-white shadow-xs mx-auto flex items-center justify-center text-[#183b2b]">
+                  <Camera className="w-6 h-6" />
+                </div>
+                <div>
+                  <p className="font-bold text-sm text-[#18211e]">
+                    Click to upload photo from your device or camera
+                  </p>
+                  <p className="text-[11px] text-[#5e6b65] mt-1">
+                    Supports JPEG, PNG, WebP up to 5MB
+                  </p>
+                </div>
+                <Button size="sm" variant="primary" className="text-xs">
+                  <Upload className="w-3.5 h-3.5 mr-1" /> Browse / Take Photo
+                </Button>
               </div>
-              <div>
-                <p className="font-semibold text-sm text-[#18211e]">
-                  Click to select food image or take a photo
-                </p>
-                <p className="text-[11px] text-[#5e6b65]">
-                  Supports JPEG, PNG, WebP up to 5MB
-                </p>
+
+              <div className="text-center pt-2">
+                <button
+                  type="button"
+                  onClick={handleSimulateScan}
+                  className="text-xs font-semibold text-[#183b2b] hover:underline"
+                >
+                  Or click here to test with a high-res sample kitchen photo
+                </button>
               </div>
-              <Button size="sm" variant="outline" className="text-xs">
-                Run AI Demo Scan
-              </Button>
             </div>
           ) : (
             <div className="space-y-4">
@@ -128,19 +168,21 @@ export function ScanFridgeModal({
                   className="w-16 h-16 rounded-xl object-cover shrink-0 border border-[#e5dfd5]"
                 />
                 <div className="space-y-0.5">
-                  <p className="font-semibold text-[#18211e]">
-                    Photo Analyzed by Gemini Multimodal
+                  <p className="font-bold text-[#18211e]">
+                    {isScanning ? "Gemini is analyzing photo..." : "Analysis Complete"}
                   </p>
                   <p className="text-[11px] text-[#5e6b65]">
-                    {detectedItems.length} ingredients recognized with high confidence
+                    {isScanning
+                      ? "Extracting ingredients with localized Bengali intelligence..."
+                      : `${detectedItems.length} ingredients recognized with confidence scores`}
                   </p>
                 </div>
               </div>
 
-              {/* Detected Items Confirmation List */}
+              {/* Detected Items List */}
               <div className="space-y-2">
-                <p className="font-semibold text-[#18211e]">
-                  Review & Confirm Detected Items:
+                <p className="font-bold text-[#18211e]">
+                  Confirm & Edit Detected Ingredients:
                 </p>
                 <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
                   {detectedItems.map((item, idx) => (
@@ -149,16 +191,18 @@ export function ScanFridgeModal({
                       className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-[#e5dfd5] shadow-2xs"
                     >
                       <div className="space-y-0.5">
-                        <span className="font-semibold text-[#18211e]">
+                        <span className="font-bold text-[#18211e]">
                           {item.name}{" "}
                           <span className="text-[#5e6b65] font-normal">
                             ({item.name_bn})
                           </span>
                         </span>
                         <div className="flex items-center gap-2 text-[10px] text-[#5e6b65]">
-                          <span>Confidence: {Math.round(item.confidence * 100)}%</span>
+                          <span className="font-mono">
+                            Confidence: {Math.round(item.confidence * 100)}%
+                          </span>
                           <span>•</span>
-                          <span>Store in: {item.storage_recommendation}</span>
+                          <span>Store: {item.storage_recommendation}</span>
                         </div>
                       </div>
 
@@ -168,7 +212,7 @@ export function ScanFridgeModal({
                         </Badge>
                         <button
                           onClick={() => handleRemove(idx)}
-                          className="p-1 rounded text-[#5e6b65] hover:text-[#b93828]"
+                          className="p-1 rounded text-[#8c9993] hover:text-[#b93828]"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -197,7 +241,7 @@ export function ScanFridgeModal({
                   className="gap-1.5 shadow-xs"
                 >
                   <Check className="w-3.5 h-3.5" />
-                  <span>Confirm & Save to Pantry</span>
+                  <span>Confirm & Save to Monira's Pantry</span>
                 </Button>
               </div>
             </div>

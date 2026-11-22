@@ -33,25 +33,25 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 bg-white border-r border-[#e7e2d9] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-30">
+    <aside className="w-64 bg-white border-r border-[#e5dfd5] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-30">
       {/* Brand Logo Header */}
       <div>
-        <div className="p-6 border-b border-[#f2eee9] flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#1b4332] flex items-center justify-center text-white shadow-sm">
-            <Leaf className="w-5 h-5 text-[#d8f3dc]" />
+        <div className="p-6 border-b border-[#f3efe8] flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#183b2b] flex items-center justify-center text-white shadow-xs">
+            <Leaf className="w-5 h-5 text-[#d8e8dc]" />
           </div>
           <div>
-            <h1 className="font-bold text-lg text-[#1b4332] tracking-tight leading-none">
+            <h1 className="font-bold text-lg text-[#183b2b] tracking-tight leading-none">
               PantryPal<span className="text-[#52796f] ml-0.5">AI</span>
             </h1>
-            <p className="text-[11px] text-[#6b7280] font-medium mt-1">
+            <p className="text-[11px] text-[#5e6b65] font-medium mt-1">
               Smart Kitchen & Food Ops
             </p>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-180px)]">
+        <nav className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-190px)]">
           {navigationItems.map((item) => {
             const Icon = item.icon;
             const isActive =
@@ -65,15 +65,15 @@ export function AppSidebar() {
                 className={cn(
                   "flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all group",
                   isActive
-                    ? "bg-[#1b4332] text-white shadow-xs"
-                    : "text-[#4b5563] hover:text-[#1b4332] hover:bg-[#edf7f0]"
+                    ? "bg-[#183b2b] text-white shadow-xs"
+                    : "text-[#5e6b65] hover:text-[#183b2b] hover:bg-[#edf5ef]"
                 )}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={cn(
                       "w-4 h-4 transition-transform group-hover:scale-110",
-                      isActive ? "text-[#d8f3dc]" : "text-[#6b7280] group-hover:text-[#1b4332]"
+                      isActive ? "text-[#d8e8dc]" : "text-[#8c9993] group-hover:text-[#183b2b]"
                     )}
                   />
                   <span>{item.name}</span>
@@ -83,8 +83,8 @@ export function AppSidebar() {
                     className={cn(
                       "text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-md",
                       isActive
-                        ? "bg-[#2d6a4f] text-[#d8f3dc]"
-                        : "bg-[#d8f3dc] text-[#1b4332]"
+                        ? "bg-[#244d3a] text-[#d8e8dc]"
+                        : "bg-[#d8e8dc] text-[#143525]"
                     )}
                   >
                     {item.badge}
@@ -96,28 +96,29 @@ export function AppSidebar() {
         </nav>
       </div>
 
-      {/* User Status / Bottom Footer */}
-      <div className="p-4 border-t border-[#f2eee9] bg-[#faf8f5]/60 m-2 rounded-xl">
+      {/* User Profile for Monira Akter */}
+      <div className="p-3.5 border-t border-[#f3efe8] bg-[#faf7f2] m-2 rounded-2xl border border-[#e5dfd5]">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-[#52796f] text-white font-semibold text-xs flex items-center justify-center">
-              BD
+            <div className="w-9 h-9 rounded-full bg-[#183b2b] text-[#d8e8dc] font-bold text-xs flex items-center justify-center ring-2 ring-white shadow-2xs">
+              MA
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-semibold text-[#1f2924] truncate">
-                Chef Shakil
+              <p className="text-xs font-bold text-[#18211e] truncate">
+                Monira Akter
               </p>
-              <p className="text-[11px] text-[#6b7280] truncate">
-                shakil@pantrypal.ai
+              <p className="text-[11px] text-[#5e6b65] truncate">
+                monira.akter@pantrypal.ai
               </p>
             </div>
           </div>
-          <button
+          <Link
+            href="/login"
             title="Sign out"
-            className="text-[#6b7280] hover:text-[#e63946] p-1.5 rounded-lg hover:bg-white transition-colors"
+            className="text-[#8c9993] hover:text-[#b93828] p-1.5 rounded-lg hover:bg-white transition-colors"
           >
             <LogOut className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       </div>
     </aside>
