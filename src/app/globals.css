@@ -1,30 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f5;
-  --foreground: #1f2924;
+  --background: #faf7f2;
+  --foreground: #18211e;
   --card: #ffffff;
-  --card-foreground: #1f2924;
-  --primary: #1b4332;
-  --primary-hover: #2d6a4f;
+  --card-foreground: #18211e;
+  --primary: #183b2b;
+  --primary-hover: #244d3a;
   --primary-foreground: #ffffff;
-  --secondary: #d8f3dc;
-  --secondary-foreground: #1b4332;
-  --muted: #f2eee9;
-  --muted-foreground: #6b7280;
-  --accent: #edf7f0;
-  --accent-foreground: #1b4332;
-  --border: #e7e2d9;
-  --input: #e7e2d9;
-  --ring: #2d6a4f;
-  --destructive: #e63946;
+  --secondary: #d8e8dc;
+  --secondary-foreground: #143525;
+  --muted: #f3efe8;
+  --muted-foreground: #5e6b65;
+  --accent: #edf5ef;
+  --accent-foreground: #183b2b;
+  --border: #e5dfd5;
+  --input: #e5dfd5;
+  --ring: #183b2b;
+  --destructive: #b93828;
   --destructive-foreground: #ffffff;
-  --warning: #f59e0b;
-  --warning-bg: #fef3c7;
-  --warning-text: #92400e;
-  --success: #10b981;
-  --success-bg: #d1fae5;
-  --success-text: #065f46;
 }
 
 @theme {
@@ -51,5 +45,22 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  min-height: 100vh;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbars for high-density tables and chats */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d8d1c5;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c3bba9;
 }
