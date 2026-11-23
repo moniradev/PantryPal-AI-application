@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 PantryPal AI — Intelligent Food, Grocery & Kitchen Management Platform
 
-## Getting Started
+> **"Your Intelligent Kitchen, Powered by AI"**  
+> Developed for **Monira Akter** • Tailored for Bangladeshi Households & Urban Food Operations.
 
-First, run the development server:
+[![Next.js](https://img.shields.io/badge/Next.js-16.4.6-black?style=flat&logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL%20%2B%20Auth-3ecf8e?style=flat&logo=supabase)](https://supabase.com/)
+[![Gemini AI](https://img.shields.io/badge/Google%20Gemini-Multimodal%20Vision-4285F4?style=flat&logo=google)](https://ai.google.dev/)
+[![Tests](https://img.shields.io/badge/QA%20Audit-8%2F8%20Passed-success?style=flat)](#automated-qa-testing)
 
+---
+
+## 📌 Project Overview
+
+**PantryPal AI** is an intelligent, full-stack kitchen and food management SaaS application designed to eliminate domestic food waste, track grocery pantry inventory with expiration countdowns, and generate personalized, localized Bengali recipes in real-time under a strict **BDT (৳)** monthly budget.
+
+Unlike generic meal planners, PantryPal AI is purpose-built with **Bangladesh Food Intelligence**:
+- **Local Staples:** Miniket rice, masoor dal, farm eggs, mustard oil, local vegetables, spices, and fresh fish.
+- **Bilingual Interface:** English and authentic Bengali (বাংলা) ingredient recognition.
+- **BDT Currency Optimization:** Dynamic pacing against monthly grocery budgets (e.g. ৳8,000/month).
+- **Zero-Waste Prioritization:** Gemini AI crafts dishes using ingredients approaching expiration first (within 24-48 hours).
+
+---
+
+## 🚀 Core Features
+
+### 1. Smart Pantry Inventory (`/pantry`)
+- Real-time inventory table with high-resolution food thumbnails.
+- Automatic shelf life indicators: `Expiring Soon (≤3 days)`, `Use Soon (≤7 days)`, and `Safe`.
+- Local unit support: `kg`, `g`, `L`, `ml`, `pcs`, `hali (4 pcs)`, and `bunch`.
+- Add, search, filter, and delete ingredients with instant live reactivity.
+
+### 2. Gemini Multimodal Fridge & Countertop Scanner
+- Upload any kitchen photo or take a live picture via mobile/device camera.
+- Powered by **Google Gemini Multimodal Vision API** (`/api/ai/vision-detect`).
+- Extracts raw ingredients with confidence scores, bilingual names, and storage recommendations before saving to pantry.
+
+### 3. Inventory-Aware AI Recipe Generator (`/recipes`)
+- Generates step-by-step cooking instructions utilizing pantry stock to avoid grocery runs.
+- Factors in meal slot (*Breakfast, Lunch, Dinner*), servings, cooking duration, and budget in BDT.
+- Highlights 100% in-stock items and calculates any missing item costs.
+
+### 4. Smart Grocery Checklist (`/grocery`)
+- Aggregates deficits directly from low pantry stock and scheduled meal recipes.
+- Dynamic checklist calculation in BDT with one-click transfer to pantry inventory.
+
+### 5. Food Budget & Expense Tracker (`/budget`)
+- Monthly budget ceiling tracking, categorization (Fresh Market, Supermarket, Dairy), and balance calculations.
+
+### 6. AI Conversational Kitchen Assistant (`/assistant`)
+- Bilingual culinary assistant answering inventory queries, meal ideas, and urgent shelf-life warnings.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend:** Next.js (App Router, Turbopack), React 19, TypeScript
+- **Design & UI:** Tailwind CSS v4, Lucide React, Custom Warm Linen & Deep Pine Forest Palette (`#183B2B`, `#FAF7F2`)
+- **Backend & DB:** Next.js Route Handlers, Supabase (PostgreSQL 16, Row Level Security, SSR Auth)
+- **AI Engine:** Google Gemini API (`@google/genai` 1.5 & 2.0 Flash)
+- **Validation:** Zod Schema Validation
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/moniradev/PantryPal-AI-application.git
+cd PantryPal-AI-application
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Set up environment variables:
+Create a `.env.local` file based on `.env.example`:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+GEMINI_API_KEY=your-gemini-api-key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run database migrations:
+Execute `supabase/migrations/20261122000000_initial_schema.sql` and `supabase/seed.sql` in your Supabase SQL Editor.
 
-## Learn More
+### 5. Start the development server:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Automated QA Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run the automated validation and logic test suite:
+```bash
+npm run test
+```
 
-## Deploy on Vercel
+Audited checks include:
+- Strict Zod schema validation
+- Expiry date algorithms (urgent, warning, safe)
+- BDT budget arithmetic precision
+- Inventory recipe matching logic
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 👤 Author & Profile
+
+- **User / Owner:** Monira Akter (`monira.akter@pantrypal.ai`)
+- **GitHub:** [@moniradev](https://github.com/moniradev)
+- **Repository:** [PantryPal-AI-application](https://github.com/moniradev/PantryPal-AI-application)
