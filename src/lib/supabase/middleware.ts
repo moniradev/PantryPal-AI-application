@@ -7,14 +7,15 @@ export async function updateSession(request: NextRequest) {
   });
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-  // If Supabase credentials are not configured yet, allow graceful navigation
-  if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes("placeholder")) {
+  if (!supabaseUrl || !supabaseKey || supabaseUrl.includes("placeholder")) {
     return supabaseResponse;
   }
 
-  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+  const supabase = createServerClient(supabaseUrl, supabaseKey, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
@@ -30,28 +31,6 @@ export async function updateSession(request: NextRequest) {
       },
     },
   });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const isProtectedPath =
-    request.nextUrl.pathname.startsWith("/dashboard") ||
-    request.nextUrl.pathname.startsWith("/pantry") ||
-    request.nextUrl.pathname.startsWith("/recipes") ||
-    request.nextUrl.pathname.startsWith("/meal-planner") ||
-    request.nextUrl.pathname.startsWith("/grocery") ||
-    request.nextUrl.pathname.startsWith("/budget") ||
-    request.nextUrl.pathname.startsWith("/analytics") ||
-    request.nextUrl.pathname.startsWith("/assistant") ||
-    request.nextUrl.pathname.startsWith("/settings");
-
-  // Redirect unauthenticated user trying to access protected paths
-  if (isProtectedPath && !user && process.env.NEXT_PUBLIC_SUPABASE_URL && !process.env.NEXT_PUBLIC_SUPABASE_URL.includes("placeholder")) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    return NextResponse.redirect(url);
-  }
 
   return supabaseResponse;
 }
