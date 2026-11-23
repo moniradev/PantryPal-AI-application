@@ -36,8 +36,12 @@ export function AppSidebar() {
     <aside className="w-64 bg-white border-r border-[#e5dfd5] flex flex-col justify-between h-screen sticky top-0 shrink-0 z-30">
       {/* Brand Logo Header */}
       <div>
-        <div className="p-6 border-b border-[#f3efe8] flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#183b2b] flex items-center justify-center text-white shadow-xs">
+        <Link
+          href="/"
+          className="p-6 border-b border-[#f3efe8] flex items-center gap-3 hover:bg-[#faf7f2] transition-colors group block"
+          title="Go to Homepage"
+        >
+          <div className="w-10 h-10 rounded-xl bg-[#183b2b] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform shrink-0">
             <Leaf className="w-5 h-5 text-[#d8e8dc]" />
           </div>
           <div>
@@ -48,7 +52,7 @@ export function AppSidebar() {
               Smart Kitchen & Food Ops
             </p>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation Links */}
         <nav className="p-3 space-y-1 overflow-y-auto max-h-[calc(100vh-190px)]">

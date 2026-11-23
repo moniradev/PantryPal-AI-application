@@ -23,8 +23,8 @@ export default function LandingPage() {
     <div className="min-h-screen bg-[#faf7f2] text-[#18211e] flex flex-col justify-between selection:bg-[#d8e8dc] selection:text-[#183b2b]">
       {/* Editorial Top Bar */}
       <header className="h-20 border-b border-[#e5dfd5] px-6 md:px-12 flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-[#183b2b] flex items-center justify-center text-white shadow-xs">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-xl bg-[#183b2b] flex items-center justify-center text-white shadow-xs group-hover:scale-105 transition-transform">
             <Leaf className="w-5 h-5 text-[#d8e8dc]" />
           </div>
           <div className="flex flex-col">
@@ -35,18 +35,18 @@ export default function LandingPage() {
               Dhaka Kitchen Lab
             </span>
           </div>
-        </div>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#5e6b65]">
-          <a href="#pantry-engine" className="hover:text-[#183b2b] transition-colors">
+          <Link href="/pantry-tracking" className="hover:text-[#183b2b] transition-colors">
             Pantry Tracking
-          </a>
-          <a href="#recipe-matcher" className="hover:text-[#183b2b] transition-colors">
+          </Link>
+          <Link href="/zero-waste-ai" className="hover:text-[#183b2b] transition-colors">
             Zero-Waste AI
-          </a>
-          <a href="#budget-intelligence" className="hover:text-[#183b2b] transition-colors">
+          </Link>
+          <Link href="/bdt-grocery-budget" className="hover:text-[#183b2b] transition-colors">
             BDT Grocery Budget
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">

@@ -1,8 +1,10 @@
 # 🌿 PantryPal AI — Intelligent Food, Grocery & Kitchen Management Platform
 
 > **"Your Intelligent Kitchen, Powered by AI"**  
-> Developed for **Monira Akter** • Tailored for Bangladeshi Households & Urban Food Operations.
+> Developed for **Monira Akter** • Tailored for Bangladeshi Households & Urban Food Operations.  
+> 🌐 **Live Production App:** [https://pantry-pal-ai-application.vercel.app/](https://pantry-pal-ai-application.vercel.app/)
 
+[![Live Deployment](https://img.shields.io/badge/Live%20App-pantry--pal--ai--application.vercel.app-000000?style=flat&logo=vercel)](https://pantry-pal-ai-application.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.6-black?style=flat&logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-v4-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
@@ -51,6 +53,11 @@ Unlike generic meal planners, PantryPal AI is purpose-built with **Bangladesh Fo
 
 ### 6. AI Conversational Kitchen Assistant (`/assistant`)
 - Bilingual culinary assistant answering inventory queries, meal ideas, and urgent shelf-life warnings.
+
+### 7. Feature Discovery Pages
+- **Pantry Tracking Showcase (`/pantry-tracking`):** Live pantry staple monitoring, expiration indicators, and unit converters.
+- **Zero-Waste AI Engine (`/zero-waste-ai`):** Prioritizes expiring staples (≤48h) to generate authentic Bengali recipes with zero grocery spend.
+- **BDT Grocery Budget (`/bdt-grocery-budget`):** Dhaka household category breakdowns (Kacha Bazaar, Supermarket, Dairy) and daily pacing calculators.
 
 ---
 
